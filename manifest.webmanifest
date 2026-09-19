@@ -1,0 +1,14 @@
+{
+  "id": "./",
+  "name": "مهدا؛ همراه خانواده و مربی",
+  "short_name": "مهدا",
+  "description": "نسل فردا، با مهدا روشن‌تر",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7faf4",
+  "theme_color": "#138350",
+  "icons": [{ "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

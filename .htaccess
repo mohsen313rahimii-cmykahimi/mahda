@@ -1,0 +1,80 @@
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Internal PHP source and configuration are never web-addressable.
+  RewriteRule ^(?:app|config|templates)(?:/|$) - [R=404,L,NC]
+  RewriteRule ^\.mahda-private(?:/|$) - [R=404,L,NC]
+  RewriteRule ^(?:\.mahda-ai\.env|mahda-ai\.env)$ - [R=404,L,NC]
+
+  # Retired bundled frontend entry points are intentionally gone.
+  RewriteRule ^app\.html$ - [R=410,L,NC]
+  RewriteRule ^dist(?:/.*)?$ - [R=410,L,NC]
+  RewriteRule ^assets/(?:index-|HomePage-|ContentBankPage-|ContentDetailPage-|ShowcasePage-|AccountPage-|UploadWizard-|AtlasPage-|LibraryPage-|SearchPage-|NotificationsPage-).*$ - [R=410,L,NC]
+
+  # Canonical public routes are handled by the modular PHP front controller.
+  RewriteRule ^$ index.php [L,QSA]
+  RewriteRule ^contentchin/?$ index.php [L,QSA]
+  RewriteRule ^contentchin/new/?$ index.php [L,QSA]
+  RewriteRule ^contentchin/view/[0-9]+/?$ index.php [L,QSA]
+  RewriteRule ^content/new/?$ index.php [L,QSA]
+  RewriteRule ^content/?$ index.php [L,QSA]
+  RewriteRule ^content/item/[0-9]+/?$ index.php [L,QSA]
+  RewriteRule ^content/item/?$ index.php [L,QSA]
+  RewriteRule ^content/([0-9]+)/?$ /content/item/$1 [R=302,L,NE]
+
+  RewriteRule ^showcase/?$ index.php [L,QSA]
+  RewriteRule ^showcase/me/?$ index.php [L,QSA]
+  RewriteRule ^showcase/profile/[0-9]+/?$ index.php [L,QSA]
+
+  RewriteRule ^profile/?$ index.php [L,QSA]
+  RewriteRule ^onboarding(?:/.*)?$ /profile [R=302,L,NE]
+  RewriteRule ^atlas/?$ index.php [L,QSA]
+  RewriteRule ^library/?$ index.php [L,QSA]
+  RewriteRule ^search/?$ index.php [L,QSA]
+  RewriteRule ^notifications/?$ index.php [L,QSA]
+  RewriteRule ^academy/?$ index.php [L,QSA]
+  RewriteRule ^heiat/?$ index.php [L,QSA]
+
+  # Existing assets, API entrypoints, uploads and admin/studio compatibility
+  # shims remain directly addressable.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Let the PHP application render its own 404 response for unknown routes.
+  RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType text/javascript .js .mjs
+  AddType text/css .css
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+  AddType application/manifest+json .webmanifest
+  AddType application/json .json
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Mahda-Build "20260918-media-cache-v1"
+
+  <FilesMatch "\.(?:js|css|json)$">
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+<Files ".mahda-ai.env">
+  Require all denied
+  Deny from all
+</Files>
+
+<Files "mahda-ai.env">
+  Require all denied
+  Deny from all
+</Files>

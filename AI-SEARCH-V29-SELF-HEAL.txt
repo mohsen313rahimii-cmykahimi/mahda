@@ -1,0 +1,7 @@
+Mahda AI Search v29.1 - shared-host self-healing build
+
+- AI secret settings are loaded automatically from the protected .mahda-ai.env file.
+- Migration 29 is automatically and idempotently applied when the AI quota/search endpoint is first used.
+- No Terminal/CLI step is required for this build.
+- Search JavaScript cache version bumped to v=2.
+- API key is never printed in UI, logs, or this note.

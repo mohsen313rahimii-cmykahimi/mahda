@@ -1,0 +1,6 @@
+{
+  "buildId": "20260917-account-onboarding-fix",
+  "apiVersion": 52,
+  "uiPatch": "account-onboarding-fix",
+  "notes": "AI search removed; registration, own showcase navigation, atlas onboarding and content access repaired."
+}
